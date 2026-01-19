@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HOODSOM FAMILY | FiveM Database</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #ff3e3e; 
+            --bg-color: #0a0a0a;
+            --card-bg: #161616;
+            --text-color: #ffffff;
+            --text-muted: #888888;
+            --accent-glow: rgba(255, 62, 62, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Kanit', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(circle at 50% 0%, #1a0505 0%, transparent 50%);
+            color: var(--text-color);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        header {
+            text-align: center;
+            margin: 60px 0 60px 0;
+        }
+
+        header h1 {
+            font-size: 4rem;
+            font-weight: 600;
+            letter-spacing: 12px;
+            color: #fff;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px var(--accent-glow);
+        }
+
+        header .family-tag {
+            background: var(--primary-color);
+            color: white;
+            padding: 4px 25px;
+            font-size: 1rem;
+            letter-spacing: 4px;
+            border-radius: 50px;
+            display: inline-block;
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        .search-box {
+            max-width: 400px;
+            margin: 0 auto 40px;
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            background: #1a1a1a;
+            border: 1px solid #333;
+            padding: 15px 25px;
+            border-radius: 12px;
+            color: white;
+            font-size: 1rem;
+            outline: none;
+            transition: 0.3s;
+            text-align: center;
+        }
+
+        .search-box input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid #222;
+            border-radius: 12px;
+            padding: 25px;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .card:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-8px);
+            background: #1c1c1c;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid #222;
+            padding-bottom: 10px;
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--primary-color);
+        }
+
+        .card h3 {
+            font-size: 1.3rem;
+            color: #fff;
+            letter-spacing: 1px;
+        }
+
+        .info-row {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .info-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .info-value {
+            font-size: 1rem;
+        }
+
+        .tag {
+            display: inline-block;
+            background: rgba(255, 62, 62, 0.1);
+            color: #ff6b6b;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            margin-right: 6px;
+            margin-bottom: 6px;
+            border: 1px solid rgba(255, 62, 62, 0.2);
+        }
+
+        .phone-text {
+            color: #4cd137;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            font-size: 1.1rem;
+        }
+
+        .empty-info {
+            color: #444;
+            font-style: italic;
+            font-size: 0.9rem;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 100px;
+            padding-bottom: 40px;
+            color: #333;
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 2.5rem;
+                letter-spacing: 6px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>HOODSOM</h1>
+        <div class="family-tag">FAMILY MEMBERS</div>
+    </header>
+
+    <div class="search-box">
+        <input type="text" id="searchInput" placeholder="ค้นหาชื่อสมาชิก..." onkeyup="filterMembers()">
+    </div>
+
+    <div class="container" id="memberList"></div>
+
+    <footer>
+        &copy; 2024 HOODSOM FAMILY DATABASE | FIVE M THAILAND
+    </footer>
+
+    <script>
+        const members = [
+            { name: "Kert LsDsing", weapons: ["Pool_Cueแดง", "KNIFEแดง"], phone: "411354" },
+            { name: "Bee KunG", weapons: ["Pool_Cueแดง", "KNIFEแดง"], phone: "649716" },
+            { name: "BEW BABEII", weapons: [], phone: "" },
+            { name: "Hood Som", weapons: [], phone: "" },
+            { name: "JJ Lo1iPop", weapons: ["Pool_Cueแดง", "KNIFEแดง"], phone: "568571" },
+            { name: "John Smith", weapons: ["Pool_Cueแดง", "KNIFEแดง"], phone: "" },
+            { name: "Mochi Zang", weapons: ["Pool_Cueแดง", "KNIFEแดง"], phone: "" },
+            { name: "Pos YangRu", weapons: ["Pool_Cueแดง", "KNIFEแดง"], phone: "174139" },
+            { name: "Skibidi Tungtungtungsahur", weapons: [], phone: "319022" },
+            { name: "Tim Grizzly", weapons: ["Pool_Cueแดง", "KNIFEแดง"], phone: "" }
+        ];
+
+        function displayMembers(data) {
+            const container = document.getElementById('memberList');
+            if (!container) return;
+            container.innerHTML = '';
+            
+            if (data.length === 0) {
+                container.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: #555; padding: 40px;">ไม่พบข้อมูลสมาชิก</div>';
+                return;
+            }
+
+            data.forEach(m => {
+                const weaponContent = m.weapons.length > 0 
+                    ? m.weapons.map(w => `<span class="tag">${w}</span>`).join('')
+                    : '<span class="empty-info">ยังไม่ทราบข้อมูล</span>';
+                const phoneContent = m.phone 
+                    ? `<span class="phone-text">${m.phone}</span>`
+                    : '<span class="empty-info">ยังไม่แจ้งเบอร์โทร</span>';
+                container.innerHTML += `
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="status-dot"></div>
+                            <h3>${m.name}</h3>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">อาวุธหลัก</span>
+                            <div class="info-value">${weaponContent}</div>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">เบอร์โทรศัพท์</span>
+                            <div class="info-value">${phoneContent}</div>
+                        </div>
+                    </div>`;
+            });
+        }
+
+        function filterMembers() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = members.filter(m => m.name.toLowerCase().includes(searchTerm));
+            displayMembers(filtered);
+        }
+
+        // เริ่มต้นแสดงผล
+        displayMembers(members);
+    </script>
+</body>
+</html>
